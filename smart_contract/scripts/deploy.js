@@ -13,7 +13,7 @@ async function main() {
   console.log("\n📝 Add this to your .env files:");
   console.log(`CONTRACT_ADDRESS=${address}`);
   
-  console.log("\n⚠️  Don't forget to verify the contract:");
+  console.log("\n  Don't forget to verify the contract:");
   console.log(`npx hardhat verify --network sepolia ${address}`);
 }
 

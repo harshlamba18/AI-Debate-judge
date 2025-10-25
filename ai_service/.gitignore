@@ -1,0 +1,46 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+*.venv
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+*.log
+logs/
+*.out
+
+# VSCode / IDE settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# PyTorch / Transformers cache
+*.pt
+*.bin
+*.model
+transformers_cache/
+torch_cache/
+
+# Uvicorn / FastAPI reload files
+*.db
+*.sqlite3
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Web3 / blockchain sensitive files
+*.json
+*.key

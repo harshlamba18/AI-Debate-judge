@@ -3,7 +3,14 @@ import json
 import hashlib
 import logging
 from web3 import Web3
-from dotenv import load_dotenv
+
+# Optional: load .env if python-dotenv is installed; otherwise provide a no-op fallback.
+try:
+    from dotenv import load_dotenv  # type: ignore
+except Exception:
+    def load_dotenv(*args, **kwargs):
+        # No-op fallback when python-dotenv is not available
+        return False
 
 # load .env if present (do NOT commit .env)
 load_dotenv()
