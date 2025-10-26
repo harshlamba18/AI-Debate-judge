@@ -16,9 +16,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f4f9ff] via-white to-[#f3e8ff]">
+      
+      {/* NAVBAR */}
       <nav className="bg-white/60 backdrop-blur-sm border-b border-white/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
+            
+            {/* Logo */}
             <div
               className="flex items-center gap-3 cursor-pointer"
               onClick={() => router.push("/")}
@@ -34,6 +38,7 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Nav Buttons */}
             <div className="flex items-center gap-3">
               <button
                 onClick={() => router.push("/login")}
@@ -48,98 +53,55 @@ export default function Home() {
                 Get Started
               </button>
             </div>
+
           </div>
         </div>
       </nav>
 
+      {/* MAIN CONTENT */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
         {/* HERO */}
-        <section className="grid lg:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6">
-            <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight text-gray-900">
-              The Future of{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600">
-                Fair Debates
-              </span>
-            </h1>
+        <section className="text-center space-y-8">
+          <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight text-gray-900">
+            The Future of{" "}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600">
+              Fair Debates
+            </span>
+          </h1>
 
-            <p className="text-lg text-gray-600 max-w-2xl">
-              Experience unbiased, AI-powered debate judging on a transparent Web3 platform.
-              Every verdict is immutable, auditable, and recorded on-chain for trust and
-              accountability.
-            </p>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Experience unbiased, AI-powered debate judging on a transparent Web3 platform.
+            Every verdict is immutable, auditable, and recorded on-chain for trust and
+            accountability.
+          </p>
 
-            <div className="flex flex-wrap gap-4 mt-4">
-              <button
-                onClick={() => router.push("/register")}
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 text-white text-lg font-semibold shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition"
-              >
-                Start Debating Now
-              </button>
+          <div className="flex flex-wrap justify-center gap-4 mt-4">
+            <button
+              onClick={() => router.push("/register")}
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 text-white text-lg font-semibold shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition"
+            >
+              Start Debating Now
+            </button>
 
-              <button
-                onClick={() => router.push("/dashboard")}
-                className="px-5 py-3 rounded-lg border border-gray-200 bg-white/60 backdrop-blur-sm text-gray-800 font-medium hover:scale-[1.01] transition"
-              >
-                Browse Debates
-              </button>
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-4">
-              <StatBadge title="AI Judging" subtitle="Automated & consistent" />
-              <StatBadge title="Blockchain" subtitle="Immutable verdicts" />
-              <StatBadge title="Real-time" subtitle="Live debates & updates" />
-            </div>
+            <button
+              onClick={() => router.push("/dashboard")}
+              className="px-5 py-3 rounded-lg border border-gray-200 bg-white/60 backdrop-blur-sm text-gray-800 font-medium hover:scale-[1.01] transition"
+            >
+              Browse Debates
+            </button>
           </div>
 
-          <div className="relative">
-            <div className="rounded-2xl p-8 bg-white/70 backdrop-blur-md border border-white/40 shadow-xl">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Live demo</h3>
-                  <p className="text-sm text-gray-500">Sample debate snapshot</p>
-                </div>
-                <div className="text-xs text-gray-500">Beta</div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 rounded-lg bg-blue-50 border border-blue-100">
-                    <p className="text-sm font-semibold text-gray-800">Side A</p>
-                    <p className="text-xs text-gray-500 mt-1">For</p>
-                    <p className="text-sm text-gray-700 mt-3">Alice • Bob</p>
-                  </div>
-                  <div className="p-4 rounded-lg bg-purple-50 border border-purple-100">
-                    <p className="text-sm font-semibold text-gray-800">Side B</p>
-                    <p className="text-xs text-gray-500 mt-1">Against</p>
-                    <p className="text-sm text-gray-700 mt-3">Charlie • Dana</p>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-lg bg-gray-50 border border-gray-100">
-                  <p className="text-sm text-gray-600">Topic</p>
-                  <h4 className="text-md font-semibold text-gray-900 mt-1">
-                    Is AI beneficial for society?
-                  </h4>
-                </div>
-
-                <div className="flex gap-3">
-                  <button className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-violet-600 text-white rounded-lg font-medium">
-                    Join Demo
-                  </button>
-                  <button className="px-4 py-2 border border-gray-200 rounded-lg bg-white/60">
-                    Details
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute -right-6 -bottom-6 w-40 h-40 rounded-full bg-gradient-to-br from-blue-300 to-violet-300 opacity-30 blur-3xl pointer-events-none" />
+          {/* Stats */}
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
+            <StatBadge title="AI Judging" subtitle="Automated & consistent" />
+            <StatBadge title="Blockchain" subtitle="Immutable verdicts" />
+            <StatBadge title="Real-time" subtitle="Live debates & updates" />
           </div>
         </section>
 
         {/* FEATURES */}
-        <section className="mt-12">
+        <section className="mt-16">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Features</h2>
             <p className="text-gray-600 max-w-2xl mx-auto mt-2">
@@ -177,7 +139,7 @@ export default function Home() {
         </section>
 
         {/* HOW IT WORKS */}
-        <section className="mt-12">
+        <section className="mt-16">
           <div className="max-w-4xl mx-auto bg-white/70 backdrop-blur-md border border-white/40 rounded-2xl p-8 shadow-lg">
             <h3 className="text-2xl font-semibold text-gray-900 text-center mb-6">How It Works</h3>
 
@@ -188,8 +150,10 @@ export default function Home() {
             </div>
           </div>
         </section>
+
       </main>
 
+      {/* FOOTER */}
       <footer className="bg-gray-900 text-white py-8 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -207,11 +171,12 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
     </div>
   );
 }
 
-/* --- small presentational subcomponents (no logic changes) --- */
+/* --- Small Presentational Components --- */
 
 function StatBadge({ title, subtitle }: { title: string; subtitle: string }) {
   return (
