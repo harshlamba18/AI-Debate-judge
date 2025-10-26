@@ -1,17 +1,17 @@
 # FastAPI server
-fastapi==0.104.1
-uvicorn==0.24.0
+fastapi
+uvicorn
 
 # Transformers for NLP
-transformers==4.35.0
+transformers
 torch
 
 # Web3 interaction for blockchain
-web3==6.11.0
-python-dotenv==1.0.0
+web3
+python-dotenv
 
 # Pydantic for request validation
-pydantic==2.4.1
+pydantic
 
 # HTTP client
-httpx>=0.24.0
+httpx
