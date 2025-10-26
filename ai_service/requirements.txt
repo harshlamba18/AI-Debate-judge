@@ -4,7 +4,7 @@ uvicorn
 
 # Transformers for NLP
 transformers==4.44.2
-torch==2.5.1+cpu
+torch==2.5.1
 
 # Web3 interaction for blockchain
 web3
