@@ -1,8 +1,3 @@
-# Dropout-Predictor
-
----
-
-
 
 1. **Clone the repository:**
 
@@ -44,8 +39,32 @@ npm install
 ```bash
 npm run dev
 ```
+7. **Navigate to the ai_service directory and set environment variables:**
+```bash
+cd AI-Debate-judge/ai_service
+cp .env.example .env
+```
 
-7. **To test the real-time features of the application (like a chat or debate), you need to simulate two different users.
+8. **Create virtual environment and activate it(for cmd)**
+
+```bash
+python -m venv venv  
+venv\Scripts\activate
+```
+
+9. **Install dependencies**
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+9. **Run FastAPI**
+
+```bash
+uvicorn ai_judge_free:app --reload --host 0.0.0.0 --port 8000
+```
+
+10. **To test the real-time features of the application (like a chat or debate), you need to simulate two different users.
 
 Open your first browser (e.g., Chrome) and go to:
 http://localhost:3000
