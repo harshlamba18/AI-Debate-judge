@@ -1,3 +1,39 @@
+# AI Debate Judge
+
+A real-time debate platform that allows users to create debates, join sides, present arguments, and receive AI-generated verdicts based on reasoning and performance. It features live interaction, AI scoring, and blockchain integration to securely record AI judgments.
+
+---
+
+## 🧠 Tech Stack Used
+
+### **Frontend**
+- **Next.js (React Framework)** – for building the user interface  
+- **Tailwind CSS** – for responsive, modern design  
+- **Lucide-react & Framer Motion** – for animations and icons  
+- **React Hot Toast** – for notifications and alerts  
+
+### **Backend**
+- **Node.js with Express.js**
+- **MongoDB (Database)**
+- **JWT Authentication (Security)**
+- **Socket.IO (Real-time Communication)**
+- **FastAPI** – high-performance backend framework  
+- **Transformers (Hugging Face)** – for zero-shot classification model (`facebook/bart-large-mnli`)  
+- **AsyncIO** – to handle concurrent model evaluations  
+- **Pydantic** – for input validation  
+- **CORS Middleware** – to allow frontend-backend communication  
+
+
+### **Blockchain Integration**
+- **Web3.py** – to connect and interact with Ethereum blockchain  
+- **Infura** – as a remote Ethereum node provider  
+- **Smart Contract (Solidity)** – to store AI judgment results securely  
+- **dotenv** – for environment variable management  
+- **hashlib** – to hash debate data before storing on-chain  
+
+---
+
+## ⚙️ Setup Instructions
 
 1. **Clone the repository:**
 
