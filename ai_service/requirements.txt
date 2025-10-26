@@ -3,8 +3,8 @@ fastapi
 uvicorn
 
 # Transformers for NLP
-transformers
-torch
+transformers==4.44.2
+torch==2.5.1+cpu
 
 # Web3 interaction for blockchain
 web3
