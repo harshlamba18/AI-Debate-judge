@@ -1,7 +1,23 @@
+# Web framework
 fastapi==0.104.1
+
+# ASGI server
 uvicorn==0.24.0
+
+# Transformers for AI evaluation
 transformers==4.35.0
-torch==2.1.0
+
+# PyTorch (latest stable compatible with Python 3.13)
+torch>=2.9.0,<3.0.0
+
+# Web3 for blockchain interaction
 web3==6.11.0
+
+# Environment variable handling
 python-dotenv==1.0.0
+
+# Data validation
 pydantic==2.5.0
+
+# Optional: async HTTP requests if needed
+httpx>=0.24.0
