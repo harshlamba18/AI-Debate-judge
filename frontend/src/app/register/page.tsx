@@ -45,8 +45,20 @@ export default function RegisterPage() {
     }
   };
 
+  const goToHome = () => {
+    router.push('/');
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center px-4">
+    <div className="relative min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center px-4">
+      {/* Top-left Home Button */}
+      <button
+        onClick={goToHome}
+        className="absolute top-4 left-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-xl transition"
+      >
+        Home
+      </button>
+
       <div className="bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl p-10 w-full max-w-md">
         <div className="flex items-center justify-center mb-8">
           <Scale className="w-12 h-12 text-purple-600 mr-3 animate-bounce" />
