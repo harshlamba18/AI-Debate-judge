@@ -1,14 +1,18 @@
+import os
+import re
+import random
+import asyncio
+import httpx
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from transformers import pipeline
-import random
-import re
-import asyncio
 from blockchain_record import store_ai_result
-import os
+from dotenv import load_dotenv
 
-app = FastAPI(title="Free AI Debate Judge")
+# Load environment variables
+load_dotenv()
+
+app = FastAPI(title="AI Debate Judge (Groq - Llama 3.1 8B Instant)")
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,57 +21,85 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ Smaller model (6× lighter than bart-large-mnli)
-MODEL_NAME = os.getenv("MODEL_NAME", "valhalla/distilbart-mnli-12-1")
+# --- Configuration ---
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    raise RuntimeError("Missing GROQ_API_KEY in environment variables.")
 
-# ✅ Lazy loading to reduce startup RAM
-judge_model = None
+GROQ_MODEL = "llama-3.1-8b-instant"
 
+# --- Input schema ---
 class DebateInput(BaseModel):
     side_a: str
     side_b: str
     topic: str
 
 
-def load_model():
-    global judge_model
-    if judge_model is None:
-        # Load model lazily (first call only)
-        judge_model = pipeline(
-            "zero-shot-classification",
-            model=MODEL_NAME,
-            device=-1,  # force CPU
-            cache_dir="./model_cache",  # avoid re-downloading each time
+# --- Groq evaluation helper ---
+async def evaluate_argument(side_text: str, topic: str) -> tuple[float, str]:
+    """
+    Get a score (0–100) and reasoning line for a given debate side.
+    """
+    prompt = f"""
+You are an impartial debate judge.
+Evaluate the following argument about the topic: "{topic}".
+
+Argument:
+{side_text}
+
+1. Rate its persuasiveness from 0 to 100, considering logic, clarity, relevance, and emotional appeal.
+2. Give one short sentence explaining why.
+
+Respond in this format exactly:
+Score: <number>
+Reason: <short sentence>
+    """
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        headers = {"Authorization": f"Bearer {GROQ_API_KEY}"}
+        payload = {
+            "model": GROQ_MODEL,
+            "messages": [
+                {"role": "system", "content": "You are an objective debate evaluator."},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0.3,
+        }
+
+        response = await client.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers=headers,
+            json=payload,
         )
-    return judge_model
+
+        if response.status_code != 200:
+            print("Groq API error:", response.text)
+            return random.uniform(45, 55), "Evaluation failed, using fallback."
+
+        result = response.json()
+        text = result["choices"][0]["message"]["content"].strip()
+
+        score_match = re.search(r"(\d+(\.\d+)?)", text)
+        reason_match = re.search(r"Reason:\s*(.+)", text, re.IGNORECASE)
+
+        score = float(score_match.group(1)) if score_match else random.uniform(45, 55)
+        score = max(0.0, min(score, 100.0))
+        reason = reason_match.group(1).strip() if reason_match else "No reasoning provided."
+
+        return score, reason
 
 
-def calculate_strict_score(eval_result, exponent=3):
-    top_score = eval_result["scores"][0]
-    score = top_score ** exponent * 100
-    score += random.uniform(-2, 2)
-    return round(score, 2)
-
-
-def _escape_control_chars(text: str) -> str:
-    def _repl(m):
-        return "\\u%04x" % ord(m.group(0))
-    return re.sub(r"[\x00-\x1f]", _repl, text)
-
-
+# --- Debate judging endpoint ---
 @app.post("/judge")
 async def judge_debate(data: DebateInput):
-    model = load_model()
-    criteria = ["logical", "clear", "relevant", "convincing", "emotional appeal"]
-
-    # Run both sides concurrently on background threads
-    side_a_eval, side_b_eval = await asyncio.gather(
-        asyncio.to_thread(model, data.side_a, candidate_labels=criteria),
-        asyncio.to_thread(model, data.side_b, candidate_labels=criteria)
+    """
+    Compare both debate sides and return the same structured response
+    as before so the frontend continues working without changes.
+    """
+    (side_a_score, side_a_reason), (side_b_score, side_b_reason) = await asyncio.gather(
+        evaluate_argument(data.side_a, data.topic),
+        evaluate_argument(data.side_b, data.topic),
     )
-
-    side_a_score = calculate_strict_score(side_a_eval)
-    side_b_score = calculate_strict_score(side_b_eval)
 
     if side_a_score > side_b_score:
         verdict = "Side A is more persuasive overall."
@@ -77,16 +109,20 @@ async def judge_debate(data: DebateInput):
         verdict = "Both sides were equally persuasive."
 
     reasoning = (
-        f"Side A top trait: {side_a_eval['labels'][0]} | "
-        f"Side B top trait: {side_b_eval['labels'][0]} | "
+        f"Side A: {side_a_reason} (Score: {side_a_score:.1f}) | "
+        f"Side B: {side_b_reason} (Score: {side_b_score:.1f}) | "
         f"Verdict: {verdict}"
     )
 
     try:
-        tx_hash = await asyncio.to_thread(store_ai_result, data.topic, side_a_score, side_b_score, verdict)
-    except Exception:
+        tx_hash = await asyncio.to_thread(
+            store_ai_result, data.topic, side_a_score, side_b_score, verdict
+        )
+    except Exception as e:
+        print("Blockchain error:", e)
         tx_hash = None
 
+    # ✅ Same response shape your frontend expects
     return {
         "topic": data.topic,
         "side_a_score": side_a_score,

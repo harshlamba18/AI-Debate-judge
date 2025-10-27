@@ -1,17 +1,8 @@
-# FastAPI server
 fastapi
 uvicorn
-
-# Transformers for NLP
-transformers==4.44.2
-torch==2.5.1
-
-# Web3 interaction for blockchain
-web3
-python-dotenv
-
-# Pydantic for request validation
-pydantic
-
-# HTTP client
 httpx
+pydantic
+python-dotenv
+web3
+eth-account
+eth-hash[pycryptodome]
