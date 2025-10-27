@@ -2,6 +2,7 @@
 
 A real-time debate platform that allows users to create debates, join sides, present arguments, and receive AI-generated verdicts based on reasoning and performance. It features live interaction, AI scoring, and blockchain integration to securely record AI judgments.
 
+Deployed Link: https://ai-debate-judge-weld.vercel.app
 ---
 
 ## 🧠 Tech Stack Used
